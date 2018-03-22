@@ -1,0 +1,63 @@
+/**
+ * The Registrant entity.
+ */
+entity Registrant {
+	/**
+	* The firstname attribute.
+	*/
+	fullName String,
+	email String,
+	phoneNumber String,
+	password String,
+	occupation Occupation,
+    professionalDesc String,
+	ocbcCustomer Boolean,
+    ocbcAccountNo String,
+    isActive Boolean
+}
+
+enum Occupation {
+    STUDENT, ENTERPRENEUR, EMPLOYEE, PROFESSIONAL, HOUSEWIFE
+}
+
+/**
+ * The Class entity.
+ */
+entity Class {
+	className String,
+	location String,
+	sessionTime Date,
+	speaker String,
+    isActive Boolean
+}
+
+/**
+ * The Speaker entity.
+ */
+entity Speaker {
+	fullName String,
+	email String,
+	phoneNumber String,
+	role String,
+	description String,
+    class Class
+}
+
+relationship OneToMany {
+	Speaker{speaker} to Class
+}
+
+relationship ManyToMany {
+  Registrant{class(className)} to Class{registrant}
+}
+
+// Set pagination options
+paginate Registrant with infinite-scroll
+paginate Class with pagination
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+// Set an angular suffix
+angularSuffix * with ajs
